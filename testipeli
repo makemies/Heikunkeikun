@@ -1,0 +1,164 @@
+package kuperkeikka;
+
+import java.util.Scanner;
+import java.util.Random;
+
+public class Testipeli {
+
+	public static void main(String[] args) {
+
+		// MÄÄRITETÄÄN MUUTTUJAT JA SCANNERI
+
+		int minimi = 1;
+		int maksimi = 13;
+		int lukumäärä = 0;
+		int kierrokset = 0;
+		String arvaus;
+
+		Scanner lukija = new Scanner(System.in);
+
+		// PELIN ALKUTERVEHDYS SEKÄ OHJE- METODI
+		aloitus();
+
+		// KYSYTÄÄN PELAAJIEN LUKUMÄÄRÄ JA KIRJATAAN YLÖS
+		System.out.print("Kuinka monta pelaajaa on mukana?: ");
+		while (!lukija.hasNextInt()) {
+			System.out.println("Virheellinen syöte!");
+			lukija.next();
+			System.out.print("Kuinka monta pelaajaa on mukana?: ");
+		}
+
+		lukumäärä = lukija.nextInt();
+
+		// LUODAAN TAULUKKO PELAAJAT JA KYSYTÄÄN PELAAJIEN NIMET
+		String pelaajat[] = new String[lukumäärä];
+
+		for (int i = 1; i < lukumäärä + 1; i++) {
+			System.out.print("Anna " + i + ". pelaajan nimi: ");
+			pelaajat[i - 1] = lukija.next();
+		}
+
+		System.out.println();
+		System.out.println();
+
+		// KYSYTÄÄN PELATTAVAT KIERROKSET
+
+		System.out.print("Kuinka monta kierrosta pelataan?: ");
+		while (!lukija.hasNextInt()) {
+			System.out.println("Virheellinen syöte!");
+			lukija.next();
+			System.out.print("Kuinka monta kierrosta pelataan?: ");
+
+		}
+		kierrokset = lukija.nextInt();
+		System.out.println("Kierroksia  pelataan " + kierrokset + " kappaletta.");
+
+		System.out.println();
+
+		// ALOITETAAN PELAAMAAN
+		System.out.print("Mahtavaa, sitten olemmekin valmiita aloittamaan. Onnea peliin!\nPaina '1' jatkaaksesi: ");
+		int tervehdys = lukija.nextInt();
+		System.out.println();
+		System.out.println();
+
+		// VARSINAINEN PELI
+
+		// PELIN X KIERROS
+		for (int kierros = 1; kierros <= kierrokset; kierros++) {
+
+			System.out.println("Aloitetaan " + kierros + ". kierros.");
+			System.out.println();
+
+			// PELAAJAN X KIERROSLOOP VALMIS VALMIS VALMIS VALMIS ÄLÄ KOSKE VALMIS
+			for (int kasvava = 0; kasvava <= lukumäärä - 1; kasvava++) {
+
+				int satunnainen1 = (int) (Math.random() * (maksimi - minimi) + 1);
+				int satunnainen2 = (int) (Math.random() * (maksimi - minimi) + 1);
+
+				System.out.println("Pelaajan " + pelaajat[kasvava] + " vuoro.");
+				System.out.println();
+				System.out.println("Aloitusluku on: " + satunnainen1);
+				System.out.println();
+				do {
+					System.out.print("Onko seuraava luku pienempi vai suurempi?");
+					arvaus = lukija.next();
+					if (!arvaus.equals("pienempi") && !arvaus.equals("suurempi")) {
+						System.out.println("Syöte ei kelpaa");
+					}
+				} while (!arvaus.equals("pienempi") && !arvaus.equals("suurempi"));
+				System.out.println();
+				System.out.println("Seuraava luku on : " + satunnainen2);
+
+				if (arvaus.equals("pienempi") && satunnainen1 > satunnainen2) {
+
+					System.out.println("Oikein! Seuraavan pelaajan vuoro.");
+					System.out.println();
+
+					continue;
+
+				}
+
+				// VAIHTOEHTOISET TAPAHTUMAT
+
+				if (arvaus.equals("suurempi") && satunnainen1 > satunnainen2) {
+					System.out
+							.println("Väärä vastaus. Suorita " + kierros + ". kuperkeikkaa Seuraavan pelaajan vuoro.");
+					System.out.println();
+
+					continue;
+
+				}
+				if (arvaus.equals("pienempi") && satunnainen1 < satunnainen2) {
+					System.out
+							.println("Väärä vastaus. Suorita " + kierros + ". kuperkeikkaa Seuraavan pelaajan vuoro.");
+					System.out.println();
+
+					continue;
+
+				}
+				if (arvaus.equals("pienempi") && satunnainen1 == satunnainen2) {
+					System.out.println("Oikein! Molemmat numerot olivat samoja, hassua!");
+					System.out.println();
+
+					continue;
+				}
+				if (arvaus.equals("suurempi") && satunnainen1 == satunnainen2) {
+					System.out.println("Oikein! Molemmat numerot olivat samoja, hassua!");
+					System.out.println();
+
+					continue;
+
+				}
+				if (arvaus.equals("suurempi") && satunnainen1 < satunnainen2) {
+					System.out.println("Oikein! Seuraavan pelaajan vuoro.");
+					System.out.println();
+
+					continue;
+
+				}
+
+				else
+					break;
+
+			} // PELAAJAN X KIERROS LOPPUU
+
+		} // KIERROS X LOPPUU
+			// OHJELMA PÄÄTTYY
+
+		System.out.println("Peli päättyi.");
+		System.out.println();
+		System.out.println(
+				"Kiitos, kun pelasit Heikun keikun- peliä!\nStudentsoftwares OY 2021\nCO-Founders\nMarkus Pantti & Anton Mäyrä\nAll rights reserved.");
+
+	}
+
+	private static void aloitus() {
+		System.out.println("Tervetuloa pelaamaan Heikun Keikun- seurapeliä!");
+		System.out.println();
+		System.out.println(
+				"Pelin tarkoituksena on arvuutella, onko seuraavaksi\nilmenevä kortti isompi vai pienempi.\nVäärästä vastauksesta joutuu suorittamaan rangaistuksen."
+						+ "\nRangaistuksen taso nousee pelattavien kierrosten mukaan.\nVirtuaalisessa korttipakassa on numerot 1-14 (Ässä-Kuningas)\nJokaisella kierroksella asetetaan aloitusnumero, jotta peli saadaan kulkemaan.\nJos pelaaja arvaa saman numeron, tulkitaan vastaus oikeaksi.");
+		System.out.println();
+		System.out.println();
+	}
+}
